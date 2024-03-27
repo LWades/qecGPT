@@ -74,7 +74,7 @@ mod2 = mod2(device=device, dtype=dtype)
 # ps = torch.linspace(0.01, 0.10, 10)
 # ps = torch.linspace(0.16, 0.20, 5)
 # ps = torch.linspace(0.11, 0.15, 5)
-ps = torch.linspace(0.01, 0.20, 20)
+ps = torch.linspace(0.04, 0.06, 3)
 # ps = [0.09]
 log("error rate list: {}".format(ps))
 log("Code: {}, d: {}, seed: {}, error model: {}, trnsz: {}".format(c_type, d, code_seed, 'depolarized', trnsz))
@@ -348,7 +348,7 @@ def gen_img_batch_eval():
         log("Error rate {} success!".format(p))
 
 
-gen_img_batch_eval()
+gen_batch()
 # gen_img_batch_eval()
 # gen_batch_eval()
 # nohup python gen_trndt_pe.py -c_type 'sur' --d 5 --trnsz 10000000 > logs/gen_trndt_pe_batch.log &
@@ -366,3 +366,4 @@ gen_img_batch_eval()
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 3 --k 1 --trnsz 10000 --seed 1 > logs/gen_trndt_pe_sur_d3_eval_s1.log &
 # nohup python gen_trndt_pe.py --c_type 'torc' --d 5 --k 2 --trnsz 10000 --seed 1 > logs/gen_trndt_pe_torc_d5_eval_s1.log &
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 5 --k 1 --trnsz 10000 --seed 1 > logs/gen_trndt_pe_sur_d5_eval_s1.log &
+# nohup python gen_trndt_pe.py --c_type 'torc' --d 5 --k 2 --trnsz 10000000 > logs/gen_trndt_pe_torc_d5.log &
