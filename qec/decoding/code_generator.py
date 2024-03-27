@@ -19,8 +19,8 @@ def code_generator(d, k, seed, c_type='sur'):
     '''
     path = abspath(dirname(__file__)).strip('decoding') + 'code/' + c_type + '_d{}_k{}_seed{}'.format(d, k, seed)
     print(path)
-    if False:
-    # if exists(path):
+    # if False:
+    if exists(path):
         print('code exists')
         info = read_code(d, k, seed, c_type=c_type)
         A = Loading_code(info)

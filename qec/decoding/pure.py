@@ -34,12 +34,13 @@ def trans_org_syndr_to_image_syndr(L, syndr):
 
 device, dtype = 'cpu', torch.float64
 # device, dtype = 'cuda:5', torch.float64
-trials = 20
+trials = 10
 # c_type = 'torc'
-c_type = 'tor'
+# c_type = 'tor'
+c_type = 'sur'
 # c_type = 'sur'
-# c_type = 'sur'
-d, k, seed = 3, 2, 0
+# d, k, seed = 3, 2, 0
+d, k, seed = 5, 1, 0
 # d, k, seed = 5, 1, 0
 t_p = 5
 error_seed = 10000
@@ -49,7 +50,7 @@ code = Loading_code(info)
 mod2 = mod2(device=device, dtype=dtype)
 
 # code = Surfacecode(3)
-code = Toricode(3)
+# code = Toricode(3)
 # code = Torcode(5)
 error_rate = torch.linspace(0.1, 0.1, 1)
 # error_rate = torch.linspace(0.01, 0.368, 19)
