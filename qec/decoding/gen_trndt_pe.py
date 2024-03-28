@@ -350,7 +350,7 @@ def gen_img_batch_eval():
         log("Error rate {} success!".format(p))
 
 
-gen_img_batch()
+gen_batch_torc()
 # gen_img_batch_eval()
 # gen_batch_eval()
 # nohup python gen_trndt_pe.py -c_type 'sur' --d 5 --trnsz 10000000 > logs/gen_trndt_pe_batch.log &
