@@ -74,7 +74,7 @@ mod2 = mod2(device=device, dtype=dtype)
 # ps = torch.linspace(0.01, 0.10, 10)
 # ps = torch.linspace(0.16, 0.20, 5)
 # ps = torch.linspace(0.11, 0.15, 5)
-ps = torch.linspace(0.10, 0.20, 10)
+ps = torch.linspace(0.07, 0.10, 4)
 # ps = [0.09]
 log("error rate list: {}".format(ps))
 log("Code: {}, d: {}, seed: {}, error model: {}, trnsz: {}".format(c_type, d, code_seed, 'depolarized', trnsz))
