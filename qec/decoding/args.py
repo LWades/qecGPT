@@ -14,6 +14,9 @@ par_common.add_argument('--k', type=int, default=1,
         help='the number of logical qubits of the code, one of the labels of code, default: %(default)d')
 par_common.add_argument('--seed', type=int, default=0,
         help='seed of random removal of stabilizers from the original code, one of the labels of code, default: %(default)d')
+par_common.add_argument('--eval_seed', type=int, default=1,
+        help='seed of random removal of stabilizers from the original code, one of the labels of code, default: %(default)d')
+'''para of errors'''
 '''para of errors'''
 par_common.add_argument('-e_model', type=str, default='depolarized',
         help='error model, default: %(default)d')
@@ -65,6 +68,13 @@ par_common.add_argument('--cpe', type=int, default=10000,
 
 par_common.add_argument('-save', type=bool, default=False,
         help='save the results if true, default: %(default)s')
+
+par_common.add_argument('--gtp', type=str, default='gib',
+                        help='生成数据的配置')
+
+par_common.add_argument('--low_p', type=float, default='0.01')
+par_common.add_argument('--high_p', type=float, default='0.20')
+par_common.add_argument('--num_p', type=int, default=20)
 
 par_common.add_argument('--trnsz', type=int, default=10000000)
 

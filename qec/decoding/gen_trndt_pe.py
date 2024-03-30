@@ -65,6 +65,7 @@ c_type = args.c_type
 d, k, seed = args.d, args.k, args.seed
 # d, k, seed = 3, 1, 0
 code_seed = 0
+eval_seed = args.eval_seed
 
 info = read_code(d, k, code_seed, c_type=c_type)
 code = Loading_code(info)
@@ -74,7 +75,7 @@ mod2 = mod2(device=device, dtype=dtype)
 # ps = torch.linspace(0.01, 0.10, 10)
 # ps = torch.linspace(0.16, 0.20, 5)
 # ps = torch.linspace(0.11, 0.15, 5)
-ps = torch.linspace(0.07, 0.10, 4)
+ps = torch.linspace(args.low_p, args.high_p, args.num_p)
 # ps = [0.09]
 log("error rate list: {}".format(ps))
 log("Code: {}, d: {}, seed: {}, error model: {}, trnsz: {}".format(c_type, d, code_seed, 'depolarized', trnsz))
@@ -133,7 +134,7 @@ def gen_batch_torc_eval():
     # log("batch_size: {}".format(batch_size))
     for p in ps:
         log("Error rate now: {}".format(p))
-        file_name = "/root/Surface_code_and_Toric_code/{}_pe/{}_d{}_p{}_trnsz{}_eval_seed{}".format(c_type, c_type, d, format(p, '.3f'), trnsz, seed)
+        file_name = "/root/Surface_code_and_Toric_code/{}_pe/{}_d{}_p{}_trnsz{}_eval_seed{}".format(c_type, c_type, d, format(p, '.3f'), trnsz, eval_seed)
         log("file name: {}".format(file_name))
         with h5py.File(file_name + ".hdf5", 'w') as f:
             log("Open h5py file success")
@@ -295,7 +296,7 @@ def gen_img_batch_eval():
     log("batch_size: {}".format(batch_size))
     for p in ps:
         log("Error rate now: {}".format(format(p, '.2f')))
-        file_name = "/root/Surface_code_and_Toric_code/{}_pe_img/{}_d{}_p{}_trnsz{}_imgsdr_eval_seed{}".format(c_type, c_type, d, format(p, '.3f'), trnsz, seed)
+        file_name = "/root/Surface_code_and_Toric_code/{}_pe_img/{}_d{}_p{}_trnsz{}_imgsdr_eval_seed{}".format(c_type, c_type, d, format(p, '.3f'), trnsz, eval_seed)
         with h5py.File(file_name + ".hdf5", 'w') as f:
             log("Open h5py file success")
             dataset_syndr = f.create_dataset('image_syndromes', shape=(0, 2*d-1, 2*d-1), maxshape=(None, 2*d-1, 2*d-1), chunks=True, compression="gzip")
@@ -350,7 +351,132 @@ def gen_img_batch_eval():
         log("Error rate {} success!".format(p))
 
 
-gen_batch_torc()
+
+def gen_batch():
+    log("gen_img_batch")
+    import h5py
+    batch_nums = trnsz // batch_size
+    log("batch_size: {}".format(batch_size))
+    for p in ps:
+        log("Error rate now: {}".format(format(p, '.2f')))
+        file_name = "/root/Surface_code_and_Toric_code/{}_pe/{}_d{}_p{}_trnsz{}_imgsdr_seed{}".format(c_type, c_type, d, format(p, '.3f'), trnsz, seed)
+        with h5py.File(file_name + ".hdf5", 'w') as f:
+            log("Open h5py file success")
+            dataset_syndr = f.create_dataset('syndromes', shape=(0, 2*d**2-2*d), maxshape=(None, 2*d**2-2*d), chunks=True, compression="gzip")
+            dataset_le = f.create_dataset('logical_errors', shape=(0, 1), maxshape=(None, 1), chunks=True, compression="gzip")
+            log("Dataset create success")
+            for i in range(batch_nums):
+                log("Num {} batch start..., {} in all".format(i, batch_nums))
+
+                E = Errormodel(e_rate=p, e_model='depolarized')
+                log("Errors generating start...")
+                errors = E.generate_error(n=code.n, m=batch_size, seed=seed)     # 这里改成了 batch_size
+                log("Errors generating end.")
+
+                log("Syndromes generating start...")
+                syndromes = mod2.commute(errors, code.g_stabilizer)
+                log("Syndromes generating end.")
+
+                log("Pure errors generating start...")
+                pes = E.pure(code.pure_es, syndromes, device=device, dtype=dtype)  # 得到可以恢复错误症状翻转的纯错误
+                log("Pure errors generating end.")
+
+                # recovers = pes
+                log("Check generating start...")
+                check = mod2.opt_prod(pes, errors)  # 矩阵加法
+                log("Check generating end.")
+                log("Logical errors generating start...")
+                logical_errors = mod2.commute(check, code.logical_opt)  # 看看有无逻辑错误
+                log("Logical errors generating end.")
+
+                log("logical errors trans to 1d start...")
+                logical_errors_1d = logical_errors[:, 0] * 2 + logical_errors[:, 1]
+                logical_errors_1d = logical_errors_1d.unsqueeze(1)
+                log("logical errors trans to 1d end.")
+
+                log("Writing syndromes to h5py file start...")
+                dataset_syndr.resize(dataset_syndr.shape[0] + batch_size, axis=0)
+                dataset_syndr[-batch_size:] = syndromes
+                log("Writing syndromes to h5py file end.")
+
+                log("Writing logical errors to h5py file start...")
+                dataset_le.resize(dataset_le.shape[0] + batch_size, axis=0)
+                dataset_le[-batch_size:] = logical_errors_1d.cpu().numpy()
+                log("Writing logical errors to h5py file end.")
+
+                log("Num {} batch end.".format(i))
+        log("Error rate {} success!".format(p))
+
+def gen_batch_eval():
+    log("gen_img_batch")
+    import h5py
+    batch_nums = trnsz // batch_size
+    log("batch_size: {}".format(batch_size))
+    for p in ps:
+        log("Error rate now: {}".format(format(p, '.2f')))
+        file_name = "/root/Surface_code_and_Toric_code/{}_pe/{}_d{}_p{}_trnsz{}_imgsdr_seed{}".format(c_type, c_type, d, format(p, '.3f'), trnsz, eval_seed)
+        with h5py.File(file_name + ".hdf5", 'w') as f:
+            log("Open h5py file success")
+            dataset_syndr = f.create_dataset('syndromes', shape=(0, 2*d**2-2*d), maxshape=(None, 2*d**2-2*d), chunks=True, compression="gzip")
+            dataset_le = f.create_dataset('logical_errors', shape=(0, 1), maxshape=(None, 1), chunks=True, compression="gzip")
+            log("Dataset create success")
+            for i in range(batch_nums):
+                log("Num {} batch start..., {} in all".format(i, batch_nums))
+
+                E = Errormodel(e_rate=p, e_model='depolarized')
+                log("Errors generating start...")
+                errors = E.generate_error(n=code.n, m=batch_size, seed=seed)     # 这里改成了 batch_size
+                log("Errors generating end.")
+
+                log("Syndromes generating start...")
+                syndromes = mod2.commute(errors, code.g_stabilizer)
+                log("Syndromes generating end.")
+
+                log("Pure errors generating start...")
+                pes = E.pure(code.pure_es, syndromes, device=device, dtype=dtype)  # 得到可以恢复错误症状翻转的纯错误
+                log("Pure errors generating end.")
+
+                # recovers = pes
+                log("Check generating start...")
+                check = mod2.opt_prod(pes, errors)  # 矩阵加法
+                log("Check generating end.")
+                log("Logical errors generating start...")
+                logical_errors = mod2.commute(check, code.logical_opt)  # 看看有无逻辑错误
+                log("Logical errors generating end.")
+
+                log("logical errors trans to 1d start...")
+                logical_errors_1d = logical_errors[:, 0] * 2 + logical_errors[:, 1]
+                logical_errors_1d = logical_errors_1d.unsqueeze(1)
+                log("logical errors trans to 1d end.")
+
+                log("Writing image syndromes to h5py file start...")
+                dataset_syndr.resize(dataset_syndr.shape[0] + batch_size, axis=0)
+                dataset_syndr[-batch_size:] = syndromes
+                log("Writing image syndromes to h5py file end.")
+
+                log("Writing logical errors to h5py file start...")
+                dataset_le.resize(dataset_le.shape[0] + batch_size, axis=0)
+                dataset_le[-batch_size:] = logical_errors_1d.cpu().numpy()
+                log("Writing logical errors to h5py file end.")
+
+                log("Num {} batch end.".format(i))
+        log("Error rate {} success!".format(p))
+
+
+gtp = args.gtp
+if gtp == 'gib':
+    gen_img_batch()
+elif gtp == 'gibe':
+    gen_img_batch_eval()
+elif gtp == 'gbt':
+    gen_batch_torc()
+elif gtp == 'gbte':
+    gen_batch_torc_eval()
+elif gtp == 'gb':
+    gen_batch()
+elif gtp == 'gbe':
+    gen_batch_eval()
+
 # gen_img_batch_eval()
 # gen_batch_eval()
 # nohup python gen_trndt_pe.py -c_type 'sur' --d 5 --trnsz 10000000 > logs/gen_trndt_pe_batch.log &
@@ -370,3 +496,7 @@ gen_batch_torc()
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 5 --k 1 --trnsz 10000 --seed 1 > logs/gen_trndt_pe_sur_d5_eval_s1.log &
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 3 --k 1 --trnsz 10000000 --seed 0 > logs/gen_trndt_pe_sur_d3_s0.log &
 # nohup python gen_trndt_pe.py --c_type 'torc' --d 5 --k 2 --trnsz 10000000 > logs/gen_trndt_pe_torc_d5.log &
+# nohup python gen_trndt_pe.py --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --seed 0 --gtp gb --low_p 0.01 --high_p 0.04 --num_p 4 > logs/gen_trndt_pe_sur_d9_s0.log &
+# nohup python gen_trndt_pe.py --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --seed 0 --gtp gb --low_p 0.05 --high_p 0.09 --num_p 5 > logs/gen_trndt_pe_sur_d9_s0_1.log &
+# nohup python gen_trndt_pe.py --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --seed 0 --gtp gb --low_p 0.10 --high_p 0.14 --num_p 5 > logs/gen_trndt_pe_sur_d9_s0_2.log &
+# nohup python gen_trndt_pe.py --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --seed 0 --gtp gb --low_p 0.15 --high_p 0.20 --num_p 6 > logs/gen_trndt_pe_sur_d9_s0_3.log &
