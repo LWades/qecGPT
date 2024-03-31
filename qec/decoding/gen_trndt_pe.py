@@ -480,26 +480,6 @@ elif gtp == 'gb':
 elif gtp == 'gbe':
     gen_batch_eval()
 
-# gen_img_batch_eval()
-# gen_batch_eval()
-# nohup python gen_trndt_pe.py -c_type 'sur' --d 5 --trnsz 10000000 > logs/gen_trndt_pe_batch.log &
-# nohup python gen_trndt_pe.py -c_type 'sur' --d 5 --trnsz 10000000 > logs/gen_trndt_pe_batch_d5_20to11.log &
-# nohup python gen_trndt_pe.py -c_type 'sur' --d 7 --trnsz 10000000 > logs/gen_trndt_pe_batch_d7_20to16.log &
-# nohup python gen_trndt_pe.py -c_type 'sur' --d 7 --trnsz 10000000 > 4logs/gen_trndt_pe_batch_d7_15to11.log &
-# nohup python gen_trndt_pe.py -c_type 'sur' --d 7 --trnsz 10000000 > logs/gen_trndt_pe_batch_d7_10to06.log &
-# nohup python gen_trndt_pe.py -c_type 'sur' --d 5 --trnsz 10000000 > logs/gen_trndt_pe_d5_0.130.log &
-# nohup python gen_trndt_pe.py -c_type 'sur' --d 5 --trnsz 10000000 > logs/gen_trndt_pe_d5_0.09.log &
-# nohup python gen_trndt_pe.py --c_type 'sur' --d 5 --trnsz 10000 > logs/gen_trndt_pe_d5_eval.log &
-# nohup python gen_trndt_pe.py --c_type 'torc' --d 3 --k 2 --trnsz 10000000 > logs/gen_trndt_pe_torc_d3.log &
-# nohup python gen_trndt_pe.py --c_type 'torc' --d 5 --k 2 --trnsz 10000000 > logs/gen_trndt_pe_torc_d5.log &
-# nohup python gen_trndt_pe.py --c_type 'torc' --d 3 --k 2 --trnsz 10000 > logs/gen_trndt_pe_torc_d3_eval.log &
-# nohup python gen_trndt_pe.py --c_type 'torc' --d 3 --k 2 --trnsz 10000 --seed 1 > logs/gen_trndt_pe_torc_d3_eval_s1.log &
-# nohup python gen_trndt_pe.py --c_type 'sur' --d 3 --k 1 --trnsz 10000 --seed 1 > logs/gen_trndt_pe_sur_d3_eval_s1.log &
-# nohup python gen_trndt_pe.py --c_type 'torc' --d 5 --k 2 --trnsz 10000 --seed 1 > logs/gen_trndt_pe_torc_d5_eval_s1.log &
-# nohup python gen_trndt_pe.py --c_type 'sur' --d 5 --k 1 --trnsz 10000 --seed 1 > logs/gen_trndt_pe_sur_d5_eval_s1.log &
-# nohup python gen_trndt_pe.py --c_type 'sur' --d 3 --k 1 --trnsz 10000000 --seed 0 > logs/gen_trndt_pe_sur_d3_s0.log &
-# nohup python gen_trndt_pe.py --c_type 'torc' --d 5 --k 2 --trnsz 10000000 > logs/gen_trndt_pe_torc_d5.log &
-# nohup python gen_trndt_pe.py --c_type 'torc' --d 5 --k 2 --trnsz 10000000 --single_p 0.1 --seed 0 > logs/gen_trndt_pe_torc_d5.log &
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --seed 0 --gtp gb --low_p 0.01 --high_p 0.04 --num_p 4 > logs/gen_trndt_pe_sur_d9_s0.log &
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --seed 0 --gtp gb --low_p 0.05 --high_p 0.09 --num_p 5 > logs/gen_trndt_pe_sur_d9_s0_1.log &
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --seed 0 --gtp gb --low_p 0.10 --high_p 0.14 --num_p 5 > logs/gen_trndt_pe_sur_d9_s0_2.log &
@@ -527,5 +507,15 @@ elif gtp == 'gbe':
 # nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 7 --k 1 --trnsz 10000000 --single_p 0.05 --seed 0 > logs/gen_trndt_pe_torc_d5127s4345.log &
 # nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 7 --k 1 --trnsz 10000000 --single_p 0.10 --seed 0 > logs/gen_trndt_pe_torc_d5127ss4345.log &
 # nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 7 --k 1 --trnsz 10000000 --single_p 0.15 --seed 0 > logs/gen_trndt_pe_torc_d5127sss4345.log &
-
+# eval
 # nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 7 --k 1 --trnsz 10000 --single_p 0.01 > logs/gen_trndt_pe_torc_d512743e45.log &
+# nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 7 --k 1 --trnsz 10000 --single_p 0.05 > logs/gen_trndt_pe_torc_d512743e45.log &
+# nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 7 --k 1 --trnsz 10000 --single_p 0.10 > logs/gen_trndt_pe_torc_d512743e45.log &
+# nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 7 --k 1 --trnsz 10000 --single_p 0.15 > logs/gen_trndt_pe_torc_d512743e45.log &
+# nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 7 --k 1 --trnsz 10000 --single_p 0.20 > logs/gen_trndt_pe_torc_d512743e45.log &
+
+# sur 11
+# nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.01 --seed 0 > logs/gen_trndt_pe_torc_d51274345.log &
+# nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.05 --seed 0 > logs/gen_trndt_pe_torc_d5127sa4345.log &
+# nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.10 --seed 0 > logs/gen_trndt_pe_torc_d5127saa4345.log &
+# nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.15 --seed 0 > logs/gen_trndt_pe_torc_d5127saa4345.log &
