@@ -72,9 +72,10 @@ par_common.add_argument('-save', type=bool, default=False,
 par_common.add_argument('--gtp', type=str, default='gib',
                         help='生成数据的配置')
 
-par_common.add_argument('--low_p', type=float, default='0.01')
-par_common.add_argument('--high_p', type=float, default='0.20')
+par_common.add_argument('--low_p', type=float, default=0.01)
+par_common.add_argument('--high_p', type=float, default=0.20)
 par_common.add_argument('--num_p', type=int, default=20)
+par_common.add_argument('--single_p', type=float, default=-1)
 
 par_common.add_argument('--trnsz', type=int, default=10000000)
 

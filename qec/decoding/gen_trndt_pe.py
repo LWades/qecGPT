@@ -13,7 +13,7 @@ import gc
 s = [0., 1., 0., 0., 1., 0., 0., 0., 0., 1., 0., 0.]
 
 
-def ZX2image(d, zxsyndrome):
+def ZX2image_sur(d, zxsyndrome):
     image_syndrome = np.zeros((2 * d - 1, 2 * d - 1))
     m = 2 * d ** 2 - 2 * d
     side = 2 * d - 1
@@ -75,7 +75,10 @@ mod2 = mod2(device=device, dtype=dtype)
 # ps = torch.linspace(0.01, 0.10, 10)
 # ps = torch.linspace(0.16, 0.20, 5)
 # ps = torch.linspace(0.11, 0.15, 5)
-ps = torch.linspace(args.low_p, args.high_p, args.num_p)
+if args.single_p > 0:
+    ps = torch.tensor([args.single_p])
+else:
+    ps = torch.linspace(args.low_p, args.high_p, args.num_p)
 # ps = [0.09]
 log("error rate list: {}".format(ps))
 log("Code: {}, d: {}, seed: {}, error model: {}, trnsz: {}".format(c_type, d, code_seed, 'depolarized', trnsz))
@@ -241,7 +244,7 @@ def gen_img_batch():
             dataset_syndr = f.create_dataset('image_syndromes', shape=(0, 2*d-1, 2*d-1), maxshape=(None, 2*d-1, 2*d-1), chunks=True, compression="gzip")
             dataset_le = f.create_dataset('logical_errors', shape=(0, 1), maxshape=(None, 1), chunks=True, compression="gzip")
             log("Dataset create success")
-            for i in range(batch_nums):
+            for i in tqdm(range(batch_nums)):
                 log("Num {} batch start..., {} in all".format(i, batch_nums))
 
                 E = Errormodel(e_rate=p, e_model='depolarized')
@@ -273,7 +276,7 @@ def gen_img_batch():
                 log("Origin syndrome trans to image syndrome start...")
                 image_syndromes = np.empty((batch_size, 2 * d - 1, 2 * d - 1))
                 for j in range(len(syndromes)):
-                    image_syndromes[j] = ZX2image(d, syndromes[j])
+                    image_syndromes[j] = ZX2image_sur(d, syndromes[j])
                 log("Origin syndrome trans to image syndrome end.")
 
                 log("Writing image syndromes to h5py file start...")
@@ -334,7 +337,7 @@ def gen_img_batch_eval():
                 log("Origin syndrome trans to image syndrome start...")
                 image_syndromes = np.empty((batch_size, 2 * d - 1, 2 * d - 1))
                 for j in range(len(syndromes)):
-                    image_syndromes[j] = ZX2image(d, syndromes[j])
+                    image_syndromes[j] = ZX2image_sur(d, syndromes[j])
                 log("Origin syndrome trans to image syndrome end.")
 
                 log("Writing image syndromes to h5py file start...")
@@ -496,7 +499,18 @@ elif gtp == 'gbe':
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 5 --k 1 --trnsz 10000 --seed 1 > logs/gen_trndt_pe_sur_d5_eval_s1.log &
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 3 --k 1 --trnsz 10000000 --seed 0 > logs/gen_trndt_pe_sur_d3_s0.log &
 # nohup python gen_trndt_pe.py --c_type 'torc' --d 5 --k 2 --trnsz 10000000 > logs/gen_trndt_pe_torc_d5.log &
+# nohup python gen_trndt_pe.py --c_type 'torc' --d 5 --k 2 --trnsz 10000000 --single_p 0.1 --seed 0 > logs/gen_trndt_pe_torc_d5.log &
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --seed 0 --gtp gb --low_p 0.01 --high_p 0.04 --num_p 4 > logs/gen_trndt_pe_sur_d9_s0.log &
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --seed 0 --gtp gb --low_p 0.05 --high_p 0.09 --num_p 5 > logs/gen_trndt_pe_sur_d9_s0_1.log &
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --seed 0 --gtp gb --low_p 0.10 --high_p 0.14 --num_p 5 > logs/gen_trndt_pe_sur_d9_s0_2.log &
 # nohup python gen_trndt_pe.py --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --seed 0 --gtp gb --low_p 0.15 --high_p 0.20 --num_p 6 > logs/gen_trndt_pe_sur_d9_s0_3.log &
+
+# nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 5 --k 2 --trnsz 10000000 --single_p 0.1 --seed 0 > logs/gen_trndt_pe_torc_d51345.log &
+# nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 5 --k 2 --trnsz 10000000 --single_p 0.1 --eval_seed 1 > logs/gen_trndt_pe_torc_d534342.log &
+
+# 7
+# nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 7 --k 2 --trnsz 10000000 --single_p 0.1 --seed 0 > logs/gen_trndt_pe_torc_d51sfs345.log &
+# nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 7 --k 2 --trnsz 10000000 --single_p 0.01 --seed 0 > logs/gen_trndt_pe_torc_d51sfs345.log &
+# nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 7 --k 2 --trnsz 10000000 --single_p 0.05 --seed 0 > logs/gen_trndt_pe_torc_d51sfs345.log &
+# nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 7 --k 2 --trnsz 10000000 --single_p 0.15 --seed 0 > logs/gen_trndt_pe_torc_d51sfs345.log &
+
