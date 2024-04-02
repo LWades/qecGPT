@@ -34,13 +34,13 @@ def trans_org_syndr_to_image_syndr(L, syndr):
 
 device, dtype = 'cpu', torch.float64
 # device, dtype = 'cuda:5', torch.float64
-trials = 10
+trials = 2
 # c_type = 'torc'
 # c_type = 'tor'
 c_type = 'sur'
 # c_type = 'sur'
 # d, k, seed = 3, 2, 0
-d, k, seed = 5, 1, 0
+d, k, seed = 3, 1, 0
 # d, k, seed = 5, 1, 0
 t_p = 5
 error_seed = 10000
@@ -68,10 +68,17 @@ for i in range(len(error_rate)):
     log("E: {}".format(E))
 
     error = E.generate_error(n=code.n, m=trials, seed=seed)
+    error = torch.tensor([[1, 0, 1, 2, 0, 2, 0, 0, 0, 0, 3, 0, 0],
+                          [1, 0, 1, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0]])
     log("error type: {}".format(type(error)))
     log("error(shape={}):\n{}".format(error.shape, error))
 
+
+
     syndrome = mod2.commute(error, code.g_stabilizer)
+    # syndrome = torch.tensor([[1,1,0,1,0,0,0,1,0,0,1,0],[1,1,0,1,0,0,0,0,0,1,1,0]])
+    # syndrome = torch.tensor([[1., 1., 0., 1., 0., 0., 0., 0., 0., 0., 1., 0.],
+    #                          [1., 1., 0., 1., 0., 0., 0., 0., 0., 0., 0., 1.]])
     log("syndrome(shape={}):\n{}".format(syndrome.shape, syndrome))
 
     pe = E.pure(code.pure_es, syndrome, device=device, dtype=dtype)
