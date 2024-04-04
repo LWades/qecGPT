@@ -557,7 +557,10 @@ elif gtp == 'gbe':
 
 # nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 7 --k 1 --trnsz 10000000 --single_p 0.15 --seed 0 > logs/gen_trndt_pe_torc_d5127sss4345.log &
 # nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.20 --seed 0 > logs/gen_trndt_pe_torc_d5127ss345.log &
-# nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 3 --k 1 --trnsz 10000000 --single_p 0.20 --seed 0 > logs/gen_trndt_pe_torc_d51827ss345.log &
+# nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 3 --k 1 --trnsz 10000000 --single_p 0.20 --seed 0 > logs/gen_trndt_pe_torc_d518sfss27ss345.log &
+# nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 3 --k 1 --trnsz 10000000 --single_p 0.20 --seed 0 > logs/gen_trndt_pe_torc_d518sfss27ss345.log &
+# nohup python gen_trndt_pe.py --gtp gibt --c_type 'sur' --d 3 --k 1 --trnsz 10000000 --single_p 0.20 --eval_seed 1 > logs/gen_trndt_pe_torc_d518sfss27ss345.log &
+# nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 3 --k 1 --trnsz 10000000 --single_p 0.15 --seed 0 > logs/gen_trndt_pe_torc_d518s15fss27ss345.log &
 
 # nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 5 --k 2 --trnsz 10000000 --single_p 0.20 --seed 0 > logs/gen_trndt_pe_torc_d3d3345.log &
 # nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 7 --k 2 --trnsz 10000000 --single_p 0.20 --seed 0 > logs/gen_trndt_pe_torc_d3ffs3345.log &
