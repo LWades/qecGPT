@@ -373,46 +373,46 @@ def gen_batch():
             dataset_syndr = f.create_dataset('syndromes', shape=(0, 2*d**2-2*d), maxshape=(None, 2*d**2-2*d), chunks=True, compression="gzip")
             dataset_le = f.create_dataset('logical_errors', shape=(0, 1), maxshape=(None, 1), chunks=True, compression="gzip")
             log("Dataset create success")
-            for i in range(batch_nums):
-                log("Num {} batch start..., {} in all".format(i, batch_nums))
+            for i in tqdm(range(batch_nums)):
+                # log("Num {} batch start..., {} in all".format(i, batch_nums))
 
                 E = Errormodel(e_rate=p, e_model='depolarized')
-                log("Errors generating start...")
+                # log("Errors generating start...")
                 errors = E.generate_error(n=code.n, m=batch_size, seed=seed)     # 这里改成了 batch_size
-                log("Errors generating end.")
+                # log("Errors generating end.")
 
-                log("Syndromes generating start...")
+                # log("Syndromes generating start...")
                 syndromes = mod2.commute(errors, code.g_stabilizer)
-                log("Syndromes generating end.")
+                # log("Syndromes generating end.")
 
-                log("Pure errors generating start...")
+                # log("Pure errors generating start...")
                 pes = E.pure(code.pure_es, syndromes, device=device, dtype=dtype)  # 得到可以恢复错误症状翻转的纯错误
-                log("Pure errors generating end.")
+                # log("Pure errors generating end.")
 
                 # recovers = pes
-                log("Check generating start...")
+                # log("Check generating start...")
                 check = mod2.opt_prod(pes, errors)  # 矩阵加法
-                log("Check generating end.")
-                log("Logical errors generating start...")
+                # log("Check generating end.")
+                # log("Logical errors generating start...")
                 logical_errors = mod2.commute(check, code.logical_opt)  # 看看有无逻辑错误
-                log("Logical errors generating end.")
+                # log("Logical errors generating end.")
 
-                log("logical errors trans to 1d start...")
+                # log("logical errors trans to 1d start...")
                 logical_errors_1d = logical_errors[:, 0] * 2 + logical_errors[:, 1]
                 logical_errors_1d = logical_errors_1d.unsqueeze(1)
-                log("logical errors trans to 1d end.")
+                # log("logical errors trans to 1d end.")
 
-                log("Writing syndromes to h5py file start...")
+                # log("Writing syndromes to h5py file start...")
                 dataset_syndr.resize(dataset_syndr.shape[0] + batch_size, axis=0)
                 dataset_syndr[-batch_size:] = syndromes
-                log("Writing syndromes to h5py file end.")
+                # log("Writing syndromes to h5py file end.")
 
-                log("Writing logical errors to h5py file start...")
+                # log("Writing logical errors to h5py file start...")
                 dataset_le.resize(dataset_le.shape[0] + batch_size, axis=0)
                 dataset_le[-batch_size:] = logical_errors_1d.cpu().numpy()
-                log("Writing logical errors to h5py file end.")
+                # log("Writing logical errors to h5py file end.")
 
-                log("Num {} batch end.".format(i))
+                # log("Num {} batch end.".format(i))
         log("Error rate {} success!".format(p))
 
 def gen_batch_eval():
@@ -564,3 +564,24 @@ elif gtp == 'gbe':
 # nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 3 --k 1 --trnsz 10000000 --single_p 0.10 --seed 0 > logs/gen_trndt_pe_torc_d31sf2sffgb45.log &
 # nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 3 --k 1 --trnsz 10000000 --single_p 0.15 --seed 0 > logs/gen_trndt_pe_torc_d31sf3sffgb45.log &
 # nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 3 --k 1 --trnsz 10000000 --single_p 0.20 --seed 0 > logs/gen_trndt_pe_torc_d31sf4sffgb45.log &
+
+# sur gb 5
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 5 --k 1 --trnsz 10000000 --single_p 0.01 --seed 0 > logs/gen_trndt_pe_torc_d31sfsffgb45.log &
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 5 --k 1 --trnsz 10000000 --single_p 0.05 --seed 0 > logs/gen_trndt_pe_torc_d31sf11sffgb45.log &
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 5 --k 1 --trnsz 10000000 --single_p 0.10 --seed 0 > logs/gen_trndt_pe_torc_d31sf2s1ffgb45.log &
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 5 --k 1 --trnsz 10000000 --single_p 0.15 --seed 0 > logs/gen_trndt_pe_torc_d31sf3sf1fgb45.log &
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 5 --k 1 --trnsz 10000000 --single_p 0.20 --seed 0 > logs/gen_trndt_pe_torc_d31sf4sff1gb45.log &
+
+# sur gb 7
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 7 --k 1 --trnsz 10000000 --single_p 0.01 --seed 0 > logs/gen_trndt_pe_torc_d31sfsffgb45.log &
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 7 --k 1 --trnsz 10000000 --single_p 0.05 --seed 0 > logs/gen_trndt_pe_torc_d31sfffgb45.log &
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 7 --k 1 --trnsz 10000000 --single_p 0.10 --seed 0 > logs/gen_trndt_pe_torc_d31sf2fgb45.log &
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 7 --k 1 --trnsz 10000000 --single_p 0.15 --seed 0 > logs/gen_trndt_pe_torc_d31sf3fgb45.log &
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 7 --k 1 --trnsz 10000000 --single_p 0.20 --seed 0 > logs/gen_trndt_pe_torc_d31sf4sfb45.log &
+
+# sur gb 9
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.01 --seed 0 > logs/gen_trndt_pe_torc_d319fsffgb45.log &
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.05 --seed 0 > logs/gen_trndt_pe_torc_d31s9fffgb45.log &
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.10 --seed 0 > logs/gen_trndt_pe_torc_d31sf92fgb45.log &
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.15 --seed 0 > logs/gen_trndt_pe_torc_d31sf39fgb45.log &
+# nohup python gen_trndt_pe.py --gtp gb --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.20 --seed 0 > logs/gen_trndt_pe_torc_d31sf4s9fb45.log &
