@@ -78,6 +78,8 @@ par_common.add_argument('--num_p', type=int, default=20)
 par_common.add_argument('--single_p', type=float, default=-1)
 
 par_common.add_argument('--trnsz', type=int, default=10000000)
+par_common.add_argument('--file', type=str, default="")
+par_common.add_argument('--key', type=str, default="")
 
 args = parser.parse_args()
 

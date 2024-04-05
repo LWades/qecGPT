@@ -605,3 +605,8 @@ elif gtp == 'gbe':
 # nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 13 --k 1 --trnsz 10000000 --single_p 0.10 --seed 0 > logs/gen_trndt_pe_torc_d517s3abb4345.log &
 # nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 13 --k 1 --trnsz 10000000 --single_p 0.15 --seed 0 > logs/gen_trndt_pe_torc_d527sa3bbb4345.log &
 # nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 13 --k 1 --trnsz 10000000 --single_p 0.20 --seed 0 > logs/gen_trndt_pe_torc_d527sab3bb4345.log &
+
+# sur 5 9 eval
+# nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 9 --k 1 --trnsz 10000 --low_p 0.01 --high_p 0.20 --num_p 20 > logs/gen_trndt_pe_torc_040504.log &
+# nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 5 --k 1 --trnsz 10000 --low_p 0.01 --high_p 0.20 --num_p 20 > logs/gen_trndt_pe_torc_040502.log &
+# nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.15 --seed 0 > logs/gen_trndt_pe_torc_d527d9sa3bbb4345.log &
