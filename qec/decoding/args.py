@@ -8,6 +8,7 @@ par_common.add_argument('--c_type', type=str, default='sur',
         help='the code type of the original code, one of the labels of code, default: %(default)s')
 par_common.add_argument('--n', type=int, default=72,
         help='the number of qubits, one of the labels of code')
+par_common.add_argument('--p', type=float, default=0.1)
 par_common.add_argument('--d', type=int, default=3,
         help='the distance of the original code, one of the labels of code')
 par_common.add_argument('--k', type=int, default=1,
@@ -80,6 +81,9 @@ par_common.add_argument('--single_p', type=float, default=-1)
 par_common.add_argument('--trnsz', type=int, default=10000000)
 par_common.add_argument('--file', type=str, default="")
 par_common.add_argument('--key', type=str, default="")
+
+par_common.add_argument('--sym', type=str, default="")
+
 
 args = parser.parse_args()
 

@@ -610,3 +610,20 @@ elif gtp == 'gbe':
 # nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 9 --k 1 --trnsz 10000 --low_p 0.01 --high_p 0.20 --num_p 20 > logs/gen_trndt_pe_torc_040504.log &
 # nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 5 --k 1 --trnsz 10000 --low_p 0.01 --high_p 0.20 --num_p 20 > logs/gen_trndt_pe_torc_040502.log &
 # nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.15 --seed 0 > logs/gen_trndt_pe_torc_d527d9sa3bbb4345.log &
+
+# torc 11
+# nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 11 --k 2 --trnsz 10000000 --single_p 0.010 --seed 0 > logs/gen_trndt_pe_torc_d3d13345.log &
+# nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 11 --k 2 --trnsz 10000000 --single_p 0.050 --seed 0 > logs/gen_trndt_pe_torc_d3d33145.log &
+# nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 11 --k 2 --trnsz 10000000 --single_p 0.100 --seed 0 > logs/gen_trndt_pe_torc_d3d33415.log &
+# nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 11 --k 2 --trnsz 10000000 --single_p 0.150 --seed 0 > logs/gen_trndt_pe_torc_d31d3345.log &
+
+# nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 9 --k 1 --trnsz 10000000 --single_p 0.10 --seed 0 > logs/gen_trndt_pe_torc_d512732ss345.log &
+# nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 11 --k 1 --trnsz 10000 --low_p 0.01 --high_p 0.20 --num_p 20 --eval_seed 1 > logs/gen_trndt_p345.log &
+
+# 20w eval
+# nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 11 --k 1 --trnsz 200000 --low_p 0.01 --high_p 0.20 --num_p 20 --eval_seed 2 > logs/gen_trndt_pe_torc_04020w504.log &
+# 100w eval
+# nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 11 --k 1 --trnsz 1000000 --low_p 0.01 --high_p 0.20 --num_p 20 --eval_seed 2 > logs/gen_trndt_pe_torc_040100w504.log &
+
+# use for sym
+# nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 11 --k 1 --trnsz 50000 --single 0.10 --eval_seed 3 > logs/gen_trndt_pe_torc_040804.log &

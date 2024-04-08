@@ -40,7 +40,7 @@ trials = 2
 c_type = 'sur'
 # c_type = 'sur'
 # d, k, seed = 3, 2, 0
-d, k, seed = 3, 1, 0
+d, k, seed = 5, 1, 0
 # d, k, seed = 5, 1, 0
 t_p = 5
 error_seed = 10000
@@ -52,7 +52,7 @@ mod2 = mod2(device=device, dtype=dtype)
 # code = Surfacecode(3)
 # code = Toricode(3)
 # code = Torcode(5)
-error_rate = torch.linspace(0.1, 0.1, 1)
+error_rate = torch.linspace(0.2, 0.2, 1)
 # error_rate = torch.linspace(0.01, 0.368, 19)
 lo_rate = []
 
@@ -68,8 +68,8 @@ for i in range(len(error_rate)):
     log("E: {}".format(E))
 
     error = E.generate_error(n=code.n, m=trials, seed=seed)
-    error = torch.tensor([[1, 0, 1, 2, 0, 2, 0, 0, 0, 0, 3, 0, 0],
-                          [1, 0, 1, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0]])
+    # error = torch.tensor([[1, 0, 1, 2, 0, 2, 0, 0, 0, 0, 3, 0, 0],
+    #                       [1, 0, 1, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0]])
     log("error type: {}".format(type(error)))
     log("error(shape={}):\n{}".format(error.shape, error))
 
