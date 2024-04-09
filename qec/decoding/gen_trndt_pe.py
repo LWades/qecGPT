@@ -627,3 +627,18 @@ elif gtp == 'gbe':
 
 # use for sym
 # nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 11 --k 1 --trnsz 50000 --single 0.10 --eval_seed 3 > logs/gen_trndt_pe_torc_040804.log &
+
+# nohup python gen_trndt_pe.py --gtp gbte --c_type 'torc' --d 3 --k 2 --trnsz 10000 --single_p 0.10 --eval_seed 1 > logs/gen_trndt_pe_torc_d3345.log &
+# nohup python gen_trndt_pe.py --gtp gbte --c_type 'torc' --d 5 --k 2 --trnsz 10000 --single_p 0.10 --eval_seed 1 > logs/gen_trndt_pe_torc_d33545.log &
+# nohup python gen_trndt_pe.py --gtp gbte --c_type 'torc' --d 7 --k 2 --trnsz 10000 --single_p 0.10 --eval_seed 1 > logs/gen_trndt_pe_torc_d373545.log &
+
+# nohup python gen_trndt_pe.py --gtp gbte --c_type 'torc' --d 5 --k 2 --trnsz 10000 --single_p 0.07 --eval_seed 1 > logs/gen_trndt_pe_torc_d3713545.log &
+# nohup python gen_trndt_pe.py --gtp gbte --c_type 'torc' --d 5 --k 2 --trnsz 10000 --low_p 0.01 --high_p 0.20 --num_p 20 --eval_seed 1 > logs/gen_trndt_pe_torc_d37ss13545.log &
+# nohup python gen_trndt_pe.py --gtp gbte --c_type 'torc' --d 7 --k 2 --trnsz 10000 --low_p 0.01 --high_p 0.20 --num_p 20 --eval_seed 1 > logs/gen_trndt_pe_torc_d3731545.log &
+# nohup python gen_trndt_pe.py --gtp gbte --c_type 'torc' --d 9 --k 2 --trnsz 10000 --low_p 0.01 --high_p 0.20 --num_p 20 --eval_seed 1 > logs/gen_trndt_pe_torc_d9731545.log &
+# nohup python gen_trndt_pe.py --gtp gbte --c_type 'torc' --d 3 --k 2 --trnsz 10000 --low_p 0.01 --high_p 0.20 --num_p 20 --eval_seed 1 > logs/gen_trndt_pe_torc_d9731e545.log &
+# nohup python gen_trndt_pe.py --gtp gbte --c_type 'torc' --d 9 --k 2 --trnsz 10000 --single_p 0.07 --eval_seed 1 > logs/gen_trndt_pe_torc_d3735145.log &
+# nohup python gen_trndt_pe.py --gtp gbt --c_type 'torc' --d 3 --k 2 --trnsz 10000000 --single_p 0.07 --seed 0 > logs/gen_trndt_pe_torc_d3sfs35145.log &
+
+# nohup python gen_trndt_pe.py --gtp gib --c_type 'sur' --d 11 --k 1 --trnsz 10 --single_p 0.10 --seed 0 > logs/gen_trndt_pe_suf_d51qqs345.log &
+# nohup python gen_trndt_pe.py --gtp gibe --c_type 'sur' --d 11 --k 1 --trnsz 10 --single_p 0.10 --eval_seed 1 > logs/gen_trndt_pe_suf_d51qqs345.log &
