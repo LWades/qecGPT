@@ -52,7 +52,8 @@ mod2 = mod2(device=device, dtype=dtype)
 # code = Surfacecode(3)
 # code = Toricode(3)
 # code = Torcode(5)
-error_rate = torch.linspace(0.2, 0.2, 1)
+# error_rate = torch.linspace(0.2, 0.2, 1)
+error_rate = torch.linspace(0.1, 0.1, 1)
 # error_rate = torch.linspace(0.01, 0.368, 19)
 lo_rate = []
 

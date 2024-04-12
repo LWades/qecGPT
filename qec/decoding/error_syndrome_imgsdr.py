@@ -109,9 +109,9 @@ def gen_img_batch():
                 log("Writing image syndromes to h5py file end.")
 
         log("Error rate {} success!".format(p))
-
-
+        log("file: {}".format(file_name))
+print(args)
 gen_img_batch()
 
 # nohup python error_syndrome_imgsdr.py --c_type 'sur' --d 11 --k 1 --trnsz 10000000 --seed 0 --gtp gb --single_p 0.100 > logs/error_syndrome_imgsdr_sur_d11.log &
-# nohup python error_syndrome_imgsdr.py --c_type 'sur' --gtp gibe --d 11 --k 1 --trnsz 10000 --eval_seed 1 --gtp gb --single_p 0.100 > logs/error_syndrome_imgsdr_eval_sur_d11.log &
+# nohup python error_syndrome_imgsdr.py --c_type sur --gtp gibe --d 11 --k 1 --trnsz 10000 --eval_seed 1 --single_p 0.100 > logs/error_syndrome_imgsdr_eval_sur_d11.log &

@@ -26,12 +26,15 @@ mod2 = mod2(device=device, dtype=dtype)
 filename_test_data = pwd_trndt + '{}_d{}_p{}_trnsz{}_imgsdr_eval_seed{}.hdf5'.format(args.c_type, args.d,
                                                                                      format(p, '.3f'), trnsz,
                                                                                      args.eval_seed)
-filename_test_data_sym = pwd_trndt + '{}_d{}_p{}_trnsz{}_imgsdr_eval_seed{}_sym.hdf5'.format(args.c_type, args.d,
+s = ""
+for s_type in args.sym:
+    s = s + "_" + s_type
+filename_test_data_sym = pwd_trndt + '{}_d{}_p{}_trnsz{}_imgsdr_eval_seed{}_sym_{}.hdf5'.format(args.c_type, args.d,
                                                                                              format(p, '.3f'), n,
-                                                                                             args.eval_seed)
-filename_test_data_base = pwd_trndt + '{}_d{}_p{}_trnsz{}_imgsdr_eval_seed{}_base.hdf5'.format(args.c_type, args.d,
+                                                                                             args.eval_seed, s)
+filename_test_data_base = pwd_trndt + '{}_d{}_p{}_trnsz{}_imgsdr_eval_seed{}_base_{}.hdf5'.format(args.c_type, args.d,
                                                                                              format(p, '.3f'), n,
-                                                                                             args.eval_seed)
+                                                                                             args.eval_seed, s)
 log("test_data: {}".format(filename_test_data))
 log("test_data_sym: {}".format(filename_test_data_sym))
 
@@ -262,4 +265,9 @@ with h5py.File(filename_test_data_sym, 'w') as f_sym, h5py.File(filename_test_da
         dataset_syndr_base = image_syndrome_bases
         dataset_le_base = logical_error_bases
 log("All finished")
-# nohup python3 sym_construct.py --c_type sur --d 11 --k 1 --p 0.1 --sym all --seed 0 --trnsz 50000 --eval_seed 3 > logs/sym_construct_11.py
+# nohup python3 sym_construct.py --c_type sur --d 11 --k 1 --p 0.1 --sym all --seed 0 --trnsz 50000 --eval_seed 3 > logs/sym_construct_11.log
+# nohup python3 sym_construct.py --c_type sur --d 11 --k 1 --p 0.1 --sym all --seed 0 --trnsz 10000 --eval_seed 3 > logs/sym_construct_15.log &
+# nohup python3 sym_construct.py --c_type sur --d 11 --k 1 --p 0.1 --sym tl --seed 0 --trnsz 50000 --eval_seed 3 > logs/sym_construct_12.log
+# nohup python3 sym_construct.py --c_type sur --d 11 --k 1 --p 0.1 --sym rt --seed 0 --trnsz 50000 --eval_seed 3 > logs/sym_construct_13.log
+# nohup python3 sym_construct.py --c_type sur --d 11 --k 1 --p 0.1 --sym rf --seed 0 --trnsz 50000 --eval_seed 3 > logs/sym_construct_14.log
+

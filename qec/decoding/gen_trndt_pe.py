@@ -85,6 +85,7 @@ log("Code: {}, d: {}, seed: {}, error model: {}, trnsz: {}".format(c_type, d, co
 
 batch_size = 10000
 
+
 # for p in ps:
 #     # log("pure_es: (shape={})\n{}".format(code.pure_es.shape, code.pure_es))
 #     log("Error rate now: {}".format(p))
@@ -138,19 +139,23 @@ def gen_batch_torc_eval():
     log("Error model seed: {}".format(eval_seed))
     for p in ps:
         log("Error rate now: {}".format(p))
-        file_name = "/root/Surface_code_and_Toric_code/{}_pe/{}_d{}_p{}_trnsz{}_eval_seed{}".format(c_type, c_type, d, format(p, '.3f'), trnsz, eval_seed)
+        file_name = "/root/Surface_code_and_Toric_code/{}_pe/{}_d{}_p{}_trnsz{}_eval_seed{}".format(c_type, c_type, d,
+                                                                                                    format(p, '.3f'),
+                                                                                                    trnsz, eval_seed)
         log("file name: {}".format(file_name))
         with h5py.File(file_name + ".hdf5", 'w') as f:
             log("Open h5py file success")
-            dataset_syndr = f.create_dataset('syndromes', shape=(0, 2*d**2-2), maxshape=(None, 2*d**2-2), chunks=True, compression="gzip")
-            dataset_le = f.create_dataset('logical_errors', shape=(0, 4), maxshape=(None, 4), chunks=True, compression="gzip")
+            dataset_syndr = f.create_dataset('syndromes', shape=(0, 2 * d ** 2 - 2), maxshape=(None, 2 * d ** 2 - 2),
+                                             chunks=True, compression="gzip")
+            dataset_le = f.create_dataset('logical_errors', shape=(0, 4), maxshape=(None, 4), chunks=True,
+                                          compression="gzip")
             log("Dataset create success")
             for i in tqdm(range(batch_nums)):
                 # log("Num {} batch start..., {} in all".format(i, batch_nums))
 
                 E = Errormodel(e_rate=p, e_model='depolarized')
                 # log("Errors generating start...")
-                errors = E.generate_error(n=code.n, m=batch_size, seed=eval_seed)     # 这里改成了 batch_size
+                errors = E.generate_error(n=code.n, m=batch_size, seed=eval_seed)  # 这里改成了 batch_size
                 # log("Errors generating end.")
 
                 # log("Syndromes generating start...")
@@ -182,6 +187,7 @@ def gen_batch_torc_eval():
                 # log("Num {} batch end.".format(i))
         log("Error rate {} success!".format(p))
 
+
 def gen_batch_torc():
     import h5py
     batch_nums = trnsz // batch_size
@@ -189,18 +195,22 @@ def gen_batch_torc():
     for p in ps:
         log("Error rate now: {}".format(format(p, '.2f')))
         log("Error model seed: {}".format(seed))
-        file_name = "/root/Surface_code_and_Toric_code/{}_pe/{}_d{}_p{}_trnsz{}_seed{}".format(c_type, c_type, d, format(p, '.3f'), trnsz, seed)
+        file_name = "/root/Surface_code_and_Toric_code/{}_pe/{}_d{}_p{}_trnsz{}_seed{}".format(c_type, c_type, d,
+                                                                                               format(p, '.3f'), trnsz,
+                                                                                               seed)
         with h5py.File(file_name + ".hdf5", 'w') as f:
             log("Open h5py file success")
-            dataset_syndr = f.create_dataset('syndromes', shape=(0, 2*d**2-2), maxshape=(None, 2*d**2-2), chunks=True, compression="gzip")
-            dataset_le = f.create_dataset('logical_errors', shape=(0, 4), maxshape=(None, 4), chunks=True, compression="gzip")
+            dataset_syndr = f.create_dataset('syndromes', shape=(0, 2 * d ** 2 - 2), maxshape=(None, 2 * d ** 2 - 2),
+                                             chunks=True, compression="gzip")
+            dataset_le = f.create_dataset('logical_errors', shape=(0, 4), maxshape=(None, 4), chunks=True,
+                                          compression="gzip")
             log("Dataset create success")
             for i in tqdm(range(batch_nums)):
                 # log("Num {} batch start..., {} in all".format(i, batch_nums))
 
                 E = Errormodel(e_rate=p, e_model='depolarized')
                 # log("Errors generating start...")
-                errors = E.generate_error(n=code.n, m=batch_size, seed=seed)     # 这里改成了 batch_size
+                errors = E.generate_error(n=code.n, m=batch_size, seed=seed)  # 这里改成了 batch_size
                 # log("Errors generating end.")
 
                 # log("Syndromes generating start...")
@@ -241,18 +251,22 @@ def gen_img_batch():
     log("Error model seed: {}".format(seed))
     for p in ps:
         log("Error rate now: {}".format(format(p, '.2f')))
-        file_name = "/root/Surface_code_and_Toric_code/{}_pe/{}_d{}_p{}_trnsz{}_imgsdr_seed{}".format(c_type, c_type, d, format(p, '.3f'), trnsz, seed)
+        file_name = "/root/Surface_code_and_Toric_code/{}_pe/{}_d{}_p{}_trnsz{}_imgsdr_seed{}".format(c_type, c_type, d,
+                                                                                                      format(p, '.3f'),
+                                                                                                      trnsz, seed)
         with h5py.File(file_name + ".hdf5", 'w') as f:
             log("Open h5py file success")
-            dataset_syndr = f.create_dataset('image_syndromes', shape=(0, 2*d-1, 2*d-1), maxshape=(None, 2*d-1, 2*d-1), chunks=True, compression="gzip")
-            dataset_le = f.create_dataset('logical_errors', shape=(0, 1), maxshape=(None, 1), chunks=True, compression="gzip")
+            dataset_syndr = f.create_dataset('image_syndromes', shape=(0, 2 * d - 1, 2 * d - 1),
+                                             maxshape=(None, 2 * d - 1, 2 * d - 1), chunks=True, compression="gzip")
+            dataset_le = f.create_dataset('logical_errors', shape=(0, 1), maxshape=(None, 1), chunks=True,
+                                          compression="gzip")
             log("Dataset create success")
             for i in tqdm(range(batch_nums)):
                 # log("Num {} batch start..., {} in all".format(i, batch_nums))
 
                 E = Errormodel(e_rate=p, e_model='depolarized')
                 # log("Errors generating start...")
-                errors = E.generate_error(n=code.n, m=batch_size, seed=seed)     # 这里改成了 batch_size
+                errors = E.generate_error(n=code.n, m=batch_size, seed=seed)  # 这里改成了 batch_size
                 # log("Errors generating end.")
 
                 # log("Syndromes generating start...")
@@ -303,18 +317,25 @@ def gen_img_batch_eval():
     log("Error model seed: {}".format(eval_seed))
     for p in ps:
         log("Error rate now: {}".format(format(p, '.2f')))
-        file_name = "/root/Surface_code_and_Toric_code/{}_pe/{}_d{}_p{}_trnsz{}_imgsdr_eval_seed{}".format(c_type, c_type, d, format(p, '.3f'), trnsz, eval_seed)
+        file_name = "/root/Surface_code_and_Toric_code/{}_pe/{}_d{}_p{}_trnsz{}_imgsdr_eval_seed{}".format(c_type,
+                                                                                                           c_type, d,
+                                                                                                           format(p,
+                                                                                                                  '.3f'),
+                                                                                                           trnsz,
+                                                                                                           eval_seed)
         with h5py.File(file_name + ".hdf5", 'w') as f:
             log("Open h5py file success")
-            dataset_syndr = f.create_dataset('image_syndromes', shape=(0, 2*d-1, 2*d-1), maxshape=(None, 2*d-1, 2*d-1), chunks=True, compression="gzip")
-            dataset_le = f.create_dataset('logical_errors', shape=(0, 1), maxshape=(None, 1), chunks=True, compression="gzip")
+            dataset_syndr = f.create_dataset('image_syndromes', shape=(0, 2 * d - 1, 2 * d - 1),
+                                             maxshape=(None, 2 * d - 1, 2 * d - 1), chunks=True, compression="gzip")
+            dataset_le = f.create_dataset('logical_errors', shape=(0, 1), maxshape=(None, 1), chunks=True,
+                                          compression="gzip")
             log("Dataset create success")
             for i in tqdm(range(batch_nums)):
                 log("Num {} batch start..., {} in all".format(i, batch_nums))
 
                 E = Errormodel(e_rate=p, e_model='depolarized')
                 log("Errors generating start...")
-                errors = E.generate_error(n=code.n, m=batch_size, seed=eval_seed)     # 这里改成了 batch_size
+                errors = E.generate_error(n=code.n, m=batch_size, seed=eval_seed)  # 这里改成了 batch_size
                 log("Errors generating end.")
 
                 log("Syndromes generating start...")
@@ -358,7 +379,6 @@ def gen_img_batch_eval():
         log("Error rate {} success!".format(p))
 
 
-
 def gen_batch():
     log("gen_img_batch")
     import h5py
@@ -367,18 +387,22 @@ def gen_batch():
     log("Error model seed: {}".format(seed))
     for p in ps:
         log("Error rate now: {}".format(format(p, '.2f')))
-        file_name = "/root/Surface_code_and_Toric_code/{}_base_pe/{}_d{}_p{}_trnsz{}_seed{}".format(c_type, c_type, d, format(p, '.3f'), trnsz, seed)
+        file_name = "/root/Surface_code_and_Toric_code/{}_base_pe/{}_d{}_p{}_trnsz{}_seed{}".format(c_type, c_type, d,
+                                                                                                    format(p, '.3f'),
+                                                                                                    trnsz, seed)
         with h5py.File(file_name + ".hdf5", 'w') as f:
             log("Open h5py file success")
-            dataset_syndr = f.create_dataset('syndromes', shape=(0, 2*d**2-2*d), maxshape=(None, 2*d**2-2*d), chunks=True, compression="gzip")
-            dataset_le = f.create_dataset('logical_errors', shape=(0, 1), maxshape=(None, 1), chunks=True, compression="gzip")
+            dataset_syndr = f.create_dataset('syndromes', shape=(0, 2 * d ** 2 - 2 * d),
+                                             maxshape=(None, 2 * d ** 2 - 2 * d), chunks=True, compression="gzip")
+            dataset_le = f.create_dataset('logical_errors', shape=(0, 1), maxshape=(None, 1), chunks=True,
+                                          compression="gzip")
             log("Dataset create success")
             for i in tqdm(range(batch_nums)):
                 # log("Num {} batch start..., {} in all".format(i, batch_nums))
 
                 E = Errormodel(e_rate=p, e_model='depolarized')
                 # log("Errors generating start...")
-                errors = E.generate_error(n=code.n, m=batch_size, seed=seed)     # 这里改成了 batch_size
+                errors = E.generate_error(n=code.n, m=batch_size, seed=seed)  # 这里改成了 batch_size
                 # log("Errors generating end.")
 
                 # log("Syndromes generating start...")
@@ -415,6 +439,7 @@ def gen_batch():
                 # log("Num {} batch end.".format(i))
         log("Error rate {} success!".format(p))
 
+
 def gen_batch_eval():
     log("gen_img_batch")
     import h5py
@@ -423,18 +448,22 @@ def gen_batch_eval():
     log("Error model seed: {}".format(eval_seed))
     for p in ps:
         log("Error rate now: {}".format(format(p, '.2f')))
-        file_name = "/root/Surface_code_and_Toric_code/{}_base_pe/{}_d{}_p{}_trnsz{}_seed{}".format(c_type, c_type, d, format(p, '.3f'), trnsz, eval_seed)
+        file_name = "/root/Surface_code_and_Toric_code/{}_base_pe/{}_d{}_p{}_trnsz{}_seed{}".format(c_type, c_type, d,
+                                                                                                    format(p, '.3f'),
+                                                                                                    trnsz, eval_seed)
         with h5py.File(file_name + ".hdf5", 'w') as f:
             log("Open h5py file success")
-            dataset_syndr = f.create_dataset('syndromes', shape=(0, 2*d**2-2*d), maxshape=(None, 2*d**2-2*d), chunks=True, compression="gzip")
-            dataset_le = f.create_dataset('logical_errors', shape=(0, 1), maxshape=(None, 1), chunks=True, compression="gzip")
+            dataset_syndr = f.create_dataset('syndromes', shape=(0, 2 * d ** 2 - 2 * d),
+                                             maxshape=(None, 2 * d ** 2 - 2 * d), chunks=True, compression="gzip")
+            dataset_le = f.create_dataset('logical_errors', shape=(0, 1), maxshape=(None, 1), chunks=True,
+                                          compression="gzip")
             log("Dataset create success")
             for i in range(batch_nums):
                 log("Num {} batch start..., {} in all".format(i, batch_nums))
 
                 E = Errormodel(e_rate=p, e_model='depolarized')
                 log("Errors generating start...")
-                errors = E.generate_error(n=code.n, m=batch_size, seed=eval_seed)     # 这里改成了 batch_size
+                errors = E.generate_error(n=code.n, m=batch_size, seed=eval_seed)  # 这里改成了 batch_size
                 log("Errors generating end.")
 
                 log("Syndromes generating start...")
